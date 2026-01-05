@@ -2,7 +2,7 @@
 
 VisionSwin is a next-generation object detection system that bridges the gap between **Convolutional Neural Networks (CNNs)** and **Vision Transformers (ViT)**. By integrating a Swin Transformer backbone into the YOLOv8 architecture, this project achieves superior feature extraction, especially in complex environments.
 
-![Project Preview](static/background.jpg)
+![Project Preview](web_app\static\Background.png)
 
 ## 🚀 Why Swin Transformer?
 Standard YOLOv8 uses CSPDarknet (CNN), which is great for local features. However, **Swin Transformer** uses hierarchical window-based self-attention, allowing the model to:

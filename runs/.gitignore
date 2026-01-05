@@ -1,0 +1,6 @@
+runs/
+Car.v1i.yolov8/
+__pycache__/
+*.pt
+*.pyc
+.env

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv8 + Swin 3D Inference</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-container">
+        <header>
+            <h1>YOLOv8 <span class="highlight">Swin</span> Detection</h1>
+            <p>Upload a car image for AI analysis</p>
+        </header>
+
+        <main>
+            <div class="upload-zone" id="drop-zone">
+                <div class="icon-container">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                </div>
+                <h3>Drag & Drop or Click to Upload</h3>
+                <input type="file" id="file-input" accept="image/*" hidden>
+            </div>
+
+            <div class="result-container" id="result-container" style="display: none;">
+                <div class="image-wrapper">
+                    <img id="result-image" src="" alt="Detection Result">
+                    <div class="loader" id="loader"></div>
+                </div>
+                <button id="reset-btn" class="btn">Analyze Another</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

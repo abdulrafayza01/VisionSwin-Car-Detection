@@ -1,0 +1,35 @@
+
+# YOLOv8n-Swin Config
+nc: 1
+scales:
+  n: [0.33, 0.25, 1024]
+
+backbone:
+  # [from, repeats, module, args]
+  - [-1, 1, SwinBackbone, ['swin_tiny_patch4_window7_224']] # 0: Returns [P3, P4, P5]
+
+head:
+  # Router Layers to unpack the backbone list
+  - [0, 1, ListSelector, [2]]  # 1: P5 (Stride 32)
+  - [0, 1, ListSelector, [1]]  # 2: P4 (Stride 16)
+  - [0, 1, ListSelector, [0]]  # 3: P3 (Stride 8)
+
+  # YOLOv8n Head starts here
+  # We start processing P5 (layer 1 here is P5)
+  - [1, 1, nn.Upsample, [None, 2, 'nearest']] # Upsample P5
+  - [[-1, 2], 1, Concat, [1]]                  # Cat with P4 (layer 2)
+  - [-1, 3, C2f, [512]]                        # Measure 512 channels
+
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
+  - [[-1, 3], 1, Concat, [1]]                  # Cat with P3 (layer 3)
+  - [-1, 3, C2f, [256]]                        # P3 Detect Branch
+
+  - [-1, 1, Conv, [256, 3, 2]]
+  - [[-1, 6], 1, Concat, [1]]                  # Cat with previous P4 branch (layer 6)
+  - [-1, 3, C2f, [512]]                        # P4 Detect Branch
+
+  - [-1, 1, Conv, [512, 3, 2]]
+  - [[-1, 1], 1, Concat, [1]]                  # Cat with P5 (layer 1)
+  - [-1, 3, C2f, [1024]]                       # P5 Detect Branch
+
+  - [[9, 12, 15], 1, Detect, [nc]]             # Detect using the C2F outputs
